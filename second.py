@@ -1,11 +1,13 @@
 # second page
+
 import csv
 
 class Restaurant:
-    def __init__ (self, name, meal, locate):
+    def __init__ (self, name, meal, locate, style):
         self.name = name
         self.meal = meal
         self.locate = locate
+        self.style = style
 
         
     def check_meal(self):
@@ -26,6 +28,13 @@ class Restaurant:
         else:
             return False
 
+    def check_style(self):
+    	if self.style in choose_style:
+    		return True
+    	else:
+    		return False
+
+
 with open('canteen.csv', 'r', encoding='utf-8') as f:
     reader = csv.reader(f)
     name2locate = dict()
@@ -36,6 +45,7 @@ with open('canteen.csv', 'r', encoding='utf-8') as f:
 
     choose_locate = input()
     choose_meal = input()
+    choose_style = input()
 
     for row in reader:
         row.pop(0)
@@ -49,7 +59,11 @@ with open('canteen.csv', 'r', encoding='utf-8') as f:
         name = row[0]
         meal = row[2]
         locate = row[1]
-        res = Restaurant(name, meal, locate)
+        style = row[3]
+        res = Restaurant(name, meal, locate, style)
         # print(res.check_locate())
         # print(res.check_meal())
+        print(res.check_style())
     f.close
+
+
