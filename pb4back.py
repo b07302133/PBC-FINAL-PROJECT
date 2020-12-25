@@ -9,7 +9,7 @@ import csv
 select = input()  # 前端：你們用博文寫好的演算法篩選之後，最後篩出的餐廳請放在這(換掉input)
 
 '''
-後端：製作好的dictionary再p1back.py，把兩個黨並在一起後後端就可以做餐廳資料的label
+前端：製作好的dictionary再p1back.py，把兩個黨並在一起後後端就可以做餐廳資料的label
 地址 = name2address[select]
 電話 = name2phone[select]
 星星 = name2stars[select]
