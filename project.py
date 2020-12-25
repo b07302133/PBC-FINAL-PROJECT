@@ -7,20 +7,23 @@ class Restaurant:
         self.locate = locate
 
         
-    def called(self):
+    def check_meal(self):
         meallist = self.meal.split(', ')
+        cnt = 0
         for meal in meallist:
+            cnt += 1
             if meal in choose_meal:
                 return True
                 break
+
+            if cnt == len(meallist):
+                return False
 
     def check_locate(self):
         if self.locate in choose_locate:
             return True
         else:
             return False
-
-    
 
 with open('canteen.csv', 'r', encoding='utf-8') as f:
     reader = csv.reader(f)
@@ -46,5 +49,6 @@ with open('canteen.csv', 'r', encoding='utf-8') as f:
         meal = row[2]
         locate = row[1]
         res = Restaurant(name, meal, locate)
-        print(res.check_locate())
+        # print(res.check_locate())
+        # print(res.check_meal())
     f.close
