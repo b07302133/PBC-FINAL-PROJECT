@@ -8,8 +8,10 @@ class Restaurant:
         self.meal = meal
         self.locate = locate
         self.style = style
+    
+    def put_name(self):
+        return self.name
 
-        
     def check_meal(self):
         meallist = self.meal.split(', ')
         cnt = 0
@@ -33,6 +35,7 @@ class Restaurant:
     		return True
     	else:
     		return False
+        
 
 
 with open('canteen.csv', 'r', encoding='utf-8') as f:
@@ -46,7 +49,8 @@ with open('canteen.csv', 'r', encoding='utf-8') as f:
     choose_locate = input()
     choose_meal = input()
     choose_style = input()
-
+    
+    create_list = []
     for row in reader:
         row.pop(0)
         # print(row)
@@ -63,7 +67,11 @@ with open('canteen.csv', 'r', encoding='utf-8') as f:
         res = Restaurant(name, meal, locate, style)
         # print(res.check_locate())
         # print(res.check_meal())
-        print(res.check_style())
+        # print(res.check_style())
+        if res.check_locate == True:
+            if res.check_meal == True:
+                if res.check_style == True:
+                    create_list.append(res.put_name)
     f.close
-
+print(create_list)
 
