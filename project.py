@@ -1,14 +1,26 @@
 import csv
 
 class Restaurant:
-    def __init__ (self, name, meal):
+    def __init__ (self, name, meal, locate):
         self.name = name
         self.meal = meal
+        self.locate = locate
+
         
     def called(self):
-        if '中餐, 晚餐' in self.meal:
-            finname = self.name
-            return finname
+        meallist = self.meal.split(', ')
+        for meal in meallist:
+            if meal in choose_meal:
+                return True
+                break
+
+    def check_locate(self):
+        if self.locate in choose_locate:
+            return True
+        else:
+            return False
+
+    
 
 with open('canteen.csv', 'r', encoding='utf-8') as f:
     reader = csv.reader(f)
@@ -17,6 +29,10 @@ with open('canteen.csv', 'r', encoding='utf-8') as f:
     name2style = dict()
     name2phone = dict()
     name2address = dict()
+
+    choose_locate = input()
+    choose_meal = input()
+
     for row in reader:
         row.pop(0)
         # print(row)
@@ -28,7 +44,7 @@ with open('canteen.csv', 'r', encoding='utf-8') as f:
 
         name = row[0]
         meal = row[2]
-        res = Restaurant(name, meal)
-        print(res.called())
+        locate = row[1]
+        res = Restaurant(name, meal, locate)
+        print(res.check_locate())
     f.close
-
