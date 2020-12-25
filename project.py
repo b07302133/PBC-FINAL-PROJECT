@@ -1,5 +1,15 @@
 import csv
 
+class Restaurant:
+    def __init__ (self, name, meal):
+        self.name = name
+        self.meal = meal
+        
+    def called(self):
+        if '中餐, 晚餐' in self.meal:
+            finname = self.name
+            return finname
+
 with open('canteen.csv', 'r', encoding='utf-8') as f:
     reader = csv.reader(f)
     name2locate = dict()
@@ -16,7 +26,9 @@ with open('canteen.csv', 'r', encoding='utf-8') as f:
         name2phone[row[0]] = row[4]
         name2address[row[0]] = row[5]
 
-    class Dictrionary:
-        def __init__ (self, name):
-            self.name = name
+        name = row[0]
+        meal = row[2]
+        res = Restaurant(name, meal)
+        print(res.called())
     f.close
+
