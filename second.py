@@ -98,5 +98,6 @@ with open('canteen.csv', 'r', encoding='utf-8') as f:
                         if res.style in style:
                             restaurant_dict[res.name] = [res.locate, res.meal, res.style, res.address, res.phone, res.star, style[1]]  # 都是符合時間、地點、類型的餐廳、以及該類型的分數
 
-print(recommendation(restaurant_dict))
+for data in recommendation(restaurant_dict):
+    print(data)
 
