@@ -86,6 +86,7 @@ with open('canteen.csv', 'r', encoding='utf-8') as f:  # 讀csv檔
     choose_meal = input()
     choose_style = input()
     day = input() # 輸出的日期
+    restaurant_dict = dict()  # 要處理的dict
     
     search_list = []  # 點好後輸出的清單在這!!（博文、前端）
     for row in reader:  # 跑csv檔的每一行
@@ -114,7 +115,6 @@ with open('canteen.csv', 'r', encoding='utf-8') as f:  # 讀csv檔
         meal = row[2]
         style = row[3]
         star = row[6]
-        restaurant_dict = dict()
         res = Restaurant(name, meal, locate, style, day, day2open, star)  # 開始使用class Restaurant
         # print(res.check_locate())
         # print(res.check_meal())
@@ -125,11 +125,14 @@ with open('canteen.csv', 'r', encoding='utf-8') as f:  # 讀csv檔
         if res.check_locate() == True:
             if res.check_meal() == True:
                 if res.check_day() == True:
-                    if res.check_style() == True:  # To博文：第二頁需要的，先寫好了
-                        for style in choose_style_sorted(choose_style):
-                            if res.style in style:
-                                restaurant_dict[res.name] = [res.locate, res.meal, res.style, res.address, res.phone, res.star, style[1]]
-
+                    for style_ in choose_style_sorted(choose_style):
+                        print(style_)
+                        if res.style in style_:
+                            print(1)
+                            restaurant_dict[res.name] = [res.locate, res.meal, res.style, res.address, res.phone, res.star, style[1]]
+                        else:
+                            continue
+print(choose_style_sorted(choose_style))
 print(recommendation(restaurant_dict))
 
                         
