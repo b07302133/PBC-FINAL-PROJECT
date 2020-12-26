@@ -8,17 +8,13 @@ class Restaurant:
         self.meal = meal
         self.locate = locate
         self.style = style
-<<<<<<< HEAD
         self.address = address
         self.phone = phone
         self.star = star
-       
-=======
-    
+
     def put_name(self):
         return self.name
 
->>>>>>> b02e67714b790dd616b715ec91a77ab968acad2c
     def check_meal(self):
         meallist = self.meal.split(', ')
         cnt = 0
@@ -76,19 +72,16 @@ with open('canteen.csv', 'r', encoding='utf-8') as f:
     name2address = dict()
     name2star = dict()
 
-<<<<<<< HEAD
     choose_locate = input()  # 第一頁的結果
     choose_meal = input()  # 第一頁的結果
     choose_style = input()  # 第二頁填完
     restaurant_dict = dict()
 
-=======
     choose_locate = input()
     choose_meal = input()
     choose_style = input()
     
     create_list = []
->>>>>>> b02e67714b790dd616b715ec91a77ab968acad2c
     for row in reader:
         row.pop(0)
         # print(row)
@@ -103,7 +96,6 @@ with open('canteen.csv', 'r', encoding='utf-8') as f:
         meal = row[2]
         locate = row[1]
         style = row[3]
-<<<<<<< HEAD
         address = row[5]
         phone = row[4]
         star = row[6]
@@ -117,7 +109,6 @@ with open('canteen.csv', 'r', encoding='utf-8') as f:
 
 for data in recommendation(restaurant_dict):
     print(data)
-=======
         res = Restaurant(name, meal, locate, style)
         # print(res.check_locate())
         # print(res.check_meal())
@@ -128,5 +119,3 @@ for data in recommendation(restaurant_dict):
                     create_list.append(res.put_name)
     f.close
 print(create_list)
->>>>>>> b02e67714b790dd616b715ec91a77ab968acad2c
-
