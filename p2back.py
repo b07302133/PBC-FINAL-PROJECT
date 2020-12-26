@@ -123,14 +123,13 @@ with open('canteen.csv', 'r', encoding='utf-8') as f:  # 讀csv檔
         
         # 用布林篩選輸出的清單
         # check_day有bug
+        print(res.check_day())
         if res.check_locate() == True:
             if res.check_meal() == True:
                 for style_ in choose_style_sorted(choose_style):
                     if res.style in style_:
-                        print(1)
                         restaurant_dict[res.name] = [res.locate, res.meal, res.style, res.star, style_[1]]
 
-print(choose_style_sorted(choose_style))
 print(recommendation(restaurant_dict))
 
                         
