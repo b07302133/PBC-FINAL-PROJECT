@@ -130,7 +130,7 @@ with open('canteen.csv', 'r', encoding='utf-8') as f:  # 讀csv檔
                             if res.style in style:
                                 restaurant_dict[res.name] = [res.locate, res.meal, res.style, res.address, res.phone, res.star, style[1]]
 
-    recommendation(restaurant_dict)
+print(recommendation(restaurant_dict))
 
                         
 
