@@ -65,9 +65,9 @@ def choose_style_sorted(choose_style):  # 為了演算法而讓每個類型有�
 def recommendation(restaurant_dict):
     preference = input()  # 方案ㄧ排序還是方案二排序，這邊a是方案一（星數優先），b是方案二（類型優先）
     if preference == 'planA':
-        recommendation_list = sorted(restaurant_dict.items(), key = lambda x: (x[1][5], x[1][6]), reverse = True)
+        recommendation_list = sorted(restaurant_dict.items(), key = lambda x: (x[1][3], x[1][4]), reverse = True)
     else:
-        recommendation_list = sorted(restaurant_dict.items(), key = lambda x: (x[1][6], x[1][5]), reverse = True)
+        recommendation_list = sorted(restaurant_dict.items(), key = lambda x: (x[1][4], x[1][3]), reverse = True)
 
     return recommendation_list
 
@@ -122,16 +122,14 @@ with open('canteen.csv', 'r', encoding='utf-8') as f:  # 讀csv檔
         # print(res.check_day())
         
         # 用布林篩選輸出的清單
+        # check_day有bug
         if res.check_locate() == True:
             if res.check_meal() == True:
-                if res.check_day() == True:
-                    for style_ in choose_style_sorted(choose_style):
-                        print(style_)
-                        if res.style in style_:
-                            print(1)
-                            restaurant_dict[res.name] = [res.locate, res.meal, res.style, res.address, res.phone, res.star, style[1]]
-                        else:
-                            continue
+                for style_ in choose_style_sorted(choose_style):
+                    if res.style in style_:
+                        print(1)
+                        restaurant_dict[res.name] = [res.locate, res.meal, res.style, res.star, style_[1]]
+
 print(choose_style_sorted(choose_style))
 print(recommendation(restaurant_dict))
 
