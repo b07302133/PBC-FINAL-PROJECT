@@ -1,4 +1,4 @@
-# page2
+# 前台page2無介面切換
 from tkinter import*
 page_2 = Tk()
 page_2.title("選擇風格與排序方法")
@@ -54,26 +54,33 @@ style_List = [
 "肥宅/魯蛇吃宵","咖哩","水餃",
 ] 
 
-style_variable = StringVar(page_2)
-style_variable.set(["請選擇風格"])
-
-style_opt1 = OptionMenu(page_2, style_variable, *style_List)
+style_variable1 = StringVar(page_2)
+style_variable1.set(["請選擇風格"])
+style_opt1 = OptionMenu(page_2, style_variable1, *style_List)
 style_opt1.config(width=20, font=('Helvetica', 12))
 style_opt1.grid(row = 1, column = 1, sticky = 'w')
 
-style_opt2 = OptionMenu(page_2, style_variable, *style_List)
+style_variable2 = StringVar(page_2)
+style_variable2.set(["請選擇風格"])
+style_opt2 = OptionMenu(page_2, style_variable2, *style_List)
 style_opt2.config(width=20, font=('Helvetica', 12))
 style_opt2.grid(row = 2, column = 1, sticky = 'w')
 
-style_opt3 = OptionMenu(page_2, style_variable, *style_List)
+style_variable3 = StringVar(page_2)
+style_variable3.set(["請選擇風格"])
+style_opt3 = OptionMenu(page_2, style_variable3, *style_List)
 style_opt3.config(width=20, font=('Helvetica', 12))
 style_opt3.grid(row = 3, column = 1, sticky = 'w')
 
-style_opt4 = OptionMenu(page_2, style_variable, *style_List)
+style_variable4 = StringVar(page_2)
+style_variable4.set(["請選擇風格"])
+style_opt4 = OptionMenu(page_2, style_variable4, *style_List)
 style_opt4.config(width=20, font=('Helvetica', 12))
 style_opt4.grid(row = 4, column = 1, sticky = 'w')
 
-style_opt5 = OptionMenu(page_2, style_variable, *style_List)
+style_variable5 = StringVar(page_2)
+style_variable5.set(["請選擇風格"])
+style_opt5 = OptionMenu(page_2, style_variable5, *style_List)
 style_opt5.config(width=20, font=('Helvetica', 12))
 style_opt5.grid(row = 5, column = 1, sticky = 'w')
 
@@ -84,6 +91,16 @@ order_variable.set(["請選擇排序方式"])
 order_opt = OptionMenu(page_2, order_variable, *order_List)
 order_opt.config(width=20, font=('Helvetica', 12))
 order_opt.grid(row = 1, column = 2, sticky = 'e')
+
+
+
+def print_output():
+    print(style_variable1.get(), style_variable2.get(), style_variable3.get(), style_variable4.get(), style_variable5.get())
+    print(order_variable.get())
+    return [style_variable1.get(), style_variable2.get(), style_variable3.get(), style_variable4.get(), style_variable5.get()], order_variable.get()
+
+next_btn.config(command = print_output)  # 按下一步時呼叫
+
 
 
 page_2.mainloop()  # 常駐主視窗
