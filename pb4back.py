@@ -1,6 +1,7 @@
 # page4 後端
 '''
 前端要注意的地方：可以control F，打「前端」來查
+振安要檢查營業時間字典的code的話：可以control F，打「振安」來查
 博文要注意的地方：可以control F，打自己的名字來查(其實沒什麼要你注意的地方XD)
 '''
 
@@ -9,7 +10,7 @@ import csv
 select = input()  # 前端：你們用博文寫好的演算法篩選之後，最後篩出的餐廳請放在這(換掉input)
 
 '''
-前端：製作好的dictionary再p1back.py，把兩個黨並在一起後後端就可以做餐廳資料的label
+後端：製作好的dictionary再p1back.py，把兩個黨並在一起後後端就可以做餐廳資料的label
 地址 = name2address[select]
 電話 = name2phone[select]
 星星 = name2stars[select]
@@ -31,6 +32,15 @@ num2day[5] = 'FRI'
 num2day[6] = 'SAT'
 num2day[7] = 'SUN'
 
+# 振安：營業時間的字典
+with open('canteen.csv', 'r', encoding='utf-8') as f:
+    reader = csv.reader(f)
+    name2run_time = dict()
+    for row in reader: 
+        row.pop(0)
+        name2run_time[row[0]] = 'MON:'+row[8]+'\n'+'TUE:'+row[10]+'\n'+'WED:'+row[12]+'\n'+'THU:'+row[14]+'\n'+'FRI:'+row[16]+'\n'+'SAT:'+row[18]+'\n'+'SUN:'+row[20]
+    f.close
+
 with open('canteen.csv', 'r', encoding='utf-8') as f:  # 讀csv檔
     reader = csv.reader(f)
     for row in reader:  # 跑csv檔的每一行
@@ -38,6 +48,9 @@ with open('canteen.csv', 'r', encoding='utf-8') as f:  # 讀csv檔
         if row[0] == select:
             select_row = row
             break
+
+    # 振安：呼叫營業時間字典的長相
+    # print(name2run_time[select])
     
     # 用dictionary記住我們選的餐廳每天的營業時間
     select2open = dict()
@@ -71,12 +84,12 @@ with open('canteen.csv', 'r', encoding='utf-8') as f:  # 讀csv檔
             關店時間也是一樣的概念，大家不放心的話可以自行檢查
             '''
         if '–' in time:  # 有的人時間輸'-'，所以再做一次
-            open_hour = int(time[:time.find('-')-3])
-            close_hour = int(time[time.find('-')+1:len(time)-3])
+            open_hour = int(time[:time.find('–')-3])
+            close_hour = int(time[time.find('–')+1:len(time)-3])
             if (current_hour - open_hour) > open_max:
                 open_max = (current_hour - open_hour)
-                open_time_str = (time[:time.find('-')]+':00.000000')
-                close_time_str = (time[time.find('-')+1:]+':00.000000')
+                open_time_str = (time[:time.find('–')]+':00.000000')
+                close_time_str = (time[time.find('–')+1:]+':00.000000')
     '''
     做完之後我存了兩個字串(open_time_str跟close_time_str)，分別代表刪選過後的開店、關店時間
     用字串的原因是因為datetime不太好比大小
