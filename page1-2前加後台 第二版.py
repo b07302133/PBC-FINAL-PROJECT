@@ -369,7 +369,7 @@ class PageTwo(Frame):
         # print(all_condition_list[4][0])   # 印出 plan
         
         # 須注意路徑
-        with open('C:\\Users\\angus410778013\\Desktop\\canteen.csv', 'r', encoding='utf-8') as f:  # 讀csv檔
+        with open('canteen.csv', 'r', encoding='utf-8') as f:  # 讀csv檔
             # 製作各種字典（除星期），之後可能會用到
             reader = csv.reader(f)
             name2locate = dict()
