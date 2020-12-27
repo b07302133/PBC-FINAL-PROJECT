@@ -423,6 +423,9 @@ class PageTwo(Frame):
         
         print(all_condition_list)
         print(recommendation(restaurant_dict))
+        print(type(recommendation(restaurant_dict))
+        # 排序recommendation_list
+        
         
 
 def choose_style_sorted(choose_style):  # 為了演算法而讓每個類型有個分數
