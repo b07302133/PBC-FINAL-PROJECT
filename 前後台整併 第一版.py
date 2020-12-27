@@ -355,22 +355,18 @@ class PageTwo(Frame):
     
     def all_check(self):
         global all_condition_list
-        if self.style_plan_check_bool == False:
-            self.style_plan_check_bool = True
             
-            list_input = [self.style_variable1_selection(),
-                          self.style_variable2_selection(),
-                          self.style_variable3_selection(),
-                          self.style_variable4_selection(),
-                          self.style_variable5_selection()]
+        list_input = [self.style_variable1_selection(),
+                      self.style_variable2_selection(),
+                      self.style_variable3_selection(),
+                      self.style_variable4_selection(),
+                      self.style_variable5_selection()]
+        
+        all_condition_list.append(list_input)
+        
+        list_input = self.order_selection()
+        all_condition_list.append([list_input])
             
-            all_condition_list.append(list_input)
-            
-            list_input = self.order_selection()
-            all_condition_list.append([list_input])
-            
-        else:
-            self.style_plan_check_bool = False
         
         # 檢查用
         # print(all_condition_list)         # 印出整個 list
@@ -434,6 +430,9 @@ class PageTwo(Frame):
         
         print(all_condition_list)
         print(recommendation(restaurant_dict))
+        
+        # 重置、淨空 all_condition_list，否則重新搜尋時會和舊有的 list 衝突
+        all_condition_list = [] 
         
 
 def choose_style_sorted(choose_style):  # 為了演算法而讓每個類型有個分數
