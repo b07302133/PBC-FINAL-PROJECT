@@ -44,7 +44,7 @@ class StartPage(Frame):
         self.weekday_display.grid(row = 0, column = 3)
         
         # testing 這邊頁面最下方，顯示輸出的視窗，只有在不跳轉頁面時才看得到
-        self.meal_location_weekday_display = Label(self, bg = 'white smoke', width = 30, height = 4, text='')
+        self.meal_location_weekday_display = Label(self, width = 30, height = 4, text='')
         self.meal_location_weekday_display.grid(row = 6, column = 0, columnspan = 6, sticky = 'e' + 'w')
         
         # 定義 all Checkbutton 也就是頁面上看到的送出鈕
