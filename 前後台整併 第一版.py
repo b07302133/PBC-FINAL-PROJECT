@@ -234,32 +234,32 @@ class PageTwo(Frame):
                 
         # 第一偏好顯示
         self.style_variable1_display = Label(self, width = 20, height = 4, 
-                                             text="請選擇風格")
+                                             text="第一想吃")
         self.style_variable1_display.grid(row = 1, column = 0, sticky = 'w')
         
         # 第二偏好顯示
         self.style_variable2_display = Label(self, width = 20, height = 4, 
-                                             text="請選擇風格")
+                                             text="第二想吃")
         self.style_variable2_display.grid(row = 2, column = 0, sticky = 'w')
         
         # 第三偏好顯示
         self.style_variable3_display = Label(self, width = 20, height = 4, 
-                                             text="請選擇風格")
+                                             text="第三想吃")
         self.style_variable3_display.grid(row = 3, column = 0, sticky = 'w')
         
         # 第四偏好顯示
         self.style_variable4_display = Label(self, width = 20, height = 4, 
-                                             text="請選擇風格")
+                                             text="第四想吃")
         self.style_variable4_display.grid(row = 4, column = 0, sticky = 'w')
         
         # 第五偏好顯示
         self.style_variable5_display = Label(self, width = 20, height = 4, 
-                                     text="請選擇風格")
+                                     text="第五想吃")
         self.style_variable5_display.grid(row = 5, column = 0, sticky = 'w')
         
         # 排序偏好顯示
         self.order_variable_display = Label(self, width = 20, height = 4, 
-                                     text="請選擇排序方式")
+                                     text="排序方式")
         
         self.order_variable_display.grid(row = 6, column = 0, sticky = 'w')
         
