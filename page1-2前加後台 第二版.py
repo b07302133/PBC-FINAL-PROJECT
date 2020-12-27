@@ -215,13 +215,13 @@ class PageTwo(Frame):
             bg = "white", command=lambda: master.switch_frame(StartPage)).grid(
                 row = 5, column = 3, sticky = 'w'+'e')
         
-        # self.style_label = Label(text="風格志願序", height = 2,
-                                 # width = 10, font ="微軟正黑體 14")
-        # self.style_label.grid(row = 0, column = 1, sticky = 'n'+'s')
+        self.style_label = Label(text="風格志願序", height = 2,
+                                 width = 10, font ="微軟正黑體 14")
+        self.style_label.grid(row = 0, column = 1, sticky = 'n'+'s')
 
-        # self.order_label = Label(text="排序方法",  height = 2, 
-        #                          width = 10, font ="微軟正黑體 14")
-        # self.order_label.grid(row = 0, column = 3, columnspan = 2)
+        self.order_label = Label(text="排序方法",  height = 2, 
+                                  width = 10, font ="微軟正黑體 14")
+        self.order_label.grid(row = 0, column = 3, columnspan = 2)
 
         self.back_btn = Button(
             self, text="送出", width=20, height=2, 
@@ -369,7 +369,7 @@ class PageTwo(Frame):
         # print(all_condition_list[4][0])   # 印出 plan
         
         # 須注意路徑
-        with open('canteen.csv', 'r', encoding='utf-8') as f:  # 讀csv檔
+        with open('C:\\Users\\ann17\\Desktop\\PBC-FINAL-PROJECT\\canteen.csv', 'r', encoding='utf-8') as f:  # 讀csv檔
             # 製作各種字典（除星期），之後可能會用到
             reader = csv.reader(f)
             name2locate = dict()
@@ -423,9 +423,9 @@ class PageTwo(Frame):
         
         print(all_condition_list)
         print(recommendation(restaurant_dict))
-        print(type(recommendation(restaurant_dict))
-        # 排序recommendation_list
-        
+        print(type(recommendation(restaurant_dict)))
+        # 排完餐廳順序
+        res_sort_list = (sorted(recommendation(restaurant_dict), key = lambda x:x[1][4], reverse = True))
         
 
 def choose_style_sorted(choose_style):  # 為了演算法而讓每個類型有個分數
