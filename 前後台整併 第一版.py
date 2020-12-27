@@ -201,7 +201,7 @@ class StartPage(Frame):
         self.weekday_display.config(text = self.weekday_variable.get())
         return [str(self.weekday_variable.get())]
     
-# 第二頁(bug)
+# 第二頁
 class PageTwo(Frame):
     def __init__(self, master):
         Frame.__init__(self, master)
@@ -345,7 +345,12 @@ class PageTwo(Frame):
         return str(self.style_variable5.get())
 
     def order_selection(self, *args):
-        self.order_variable_display.config(text = self.order_variable.get())
+        if str(self.order_variable.get()) == 'planA':
+            self.order_variable_display.config(text = '星數優先')
+            
+        elif str(self.order_variable.get()) == 'planB':
+            self.order_variable_display.config(text = '類型優先')
+            
         return str(self.order_variable.get())
     
     def all_check(self):
@@ -448,9 +453,6 @@ def choose_style_sorted(choose_style):  # 為了演算法而讓每個類型有�
 
 def recommendation(restaurant_dict):
     
-    """
-    這邊記得要改！！！
-    """
     preference = all_condition_list[4][0] # 方案ㄧ排序還是方案二排序，這邊a是方案一（星數優先），b是方案二（類型優先）
     if preference == 'planA':
         recommendation_list = sorted(restaurant_dict.items(), key = lambda x: (x[1][3], x[1][4]), reverse = True)
