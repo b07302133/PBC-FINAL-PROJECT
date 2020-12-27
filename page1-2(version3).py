@@ -5,7 +5,8 @@ import csv
 前端的部分由此開始
 """
 all_condition_list = []
-
+recommendation_res_list = []
+restaurant_dict = dict()
 # 將視窗作為一個物件
 class window(Tk):
     def __init__(self):
@@ -230,7 +231,7 @@ class PageTwo(Frame):
 
         self.back_btn = Button(
             self, text="送出", width=20, height=2, 
-            bg = "white", command = lambda:[self.all_check() ,master.switch_frame(StartPage)]).grid(
+            bg = "white", command = lambda:[self.all_check() ,master.switch_frame(PageThree)]).grid(
             row = 6, column = 3, sticky = 'w'+'e')
 
         # 第一偏好顯示
@@ -349,6 +350,7 @@ class PageTwo(Frame):
     
     def all_check(self):
         global all_condition_list
+        global recommendation_res_list
         if self.style_plan_check_bool == False:
             self.style_plan_check_bool = True
             
@@ -373,9 +375,10 @@ class PageTwo(Frame):
         # print(all_condition_list[2][0])   # 印出 day
         # print(all_condition_list[3])      # 印出 style list
         # print(all_condition_list[4][0])   # 印出 plan
-        
+
+
         # 須注意路徑
-        with open('C:\\Users\\angus410778013\\Desktop\\canteen.csv', 'r', encoding='utf-8') as f:  # 讀csv檔
+        with open('C:\\Users\\ann17\\Desktop\\PBC-FINAL-PROJECT\\canteen.csv', 'r', encoding='utf-8') as f:  # 讀csv檔
             # 製作各種字典（除星期），之後可能會用到
             reader = csv.reader(f)
             name2locate = dict()
@@ -392,7 +395,7 @@ class PageTwo(Frame):
             day = all_condition_list[2][0] # 輸出的日期
             choose_style = all_condition_list[3]
             
-            restaurant_dict = dict()  # 點好後輸出的清單在這!!（博文、前端）
+            global restaurant_dict   # 點好後輸出的清單在這!!（博文、前端）
             
             name2open = dict()  # 博文、振安：跑check_day的dictionary
             for row in reader:  # 跑csv檔的每一行
@@ -431,7 +434,7 @@ class PageTwo(Frame):
         print(recommendation(restaurant_dict))
         print(type(recommendation(restaurant_dict)))
         # 排完餐廳順序
-        res_sort_list = (sorted(recommendation(restaurant_dict), key = lambda x:x[1][4], reverse = True))
+        recommendation_res_list = recommendation(restaurant_dict)
         
 
 def choose_style_sorted(choose_style):  # 為了演算法而讓每個類型有個分數
@@ -507,6 +510,61 @@ class Restaurant:
         else:
             return False
 
+class PageThree(Frame):    
+    def get_res():
+        res_name = var.get()
+    def __init__(self, master):
+        Frame.__init__(self, master)
+        res_name = ""
+        self.res_var = StringVar()
+        self.no1_option = Radiobutton(self, width = 20, height = 4, text="第一推薦："+ \
+                          recommendation_res_list[0][0], variable = self.res_var, value = recommendation_res_list[0][0], command=lambda:[get_res(),master.switch_frame(PageFour)])
+        self.no2_option = Radiobutton(self, width = 20, height = 4, text="第二推薦："+ \
+                          recommendation_res_list[1][0], variable = self.res_var, value = recommendation_res_list[1][0], command=lambda:[get_res(),master.switch_frame(PageFour)])
+        self.no3_option = Radiobutton(self, width = 20, height = 4, text="第三推薦："+ \
+                          recommendation_res_list[2][0], variable = self.res_var, value = recommendation_res_list[2][0], command=lambda:[get_res(),master.switch_frame(PageFour)])
+        self.no4_option = Radiobutton(self, width = 20, height = 4, text="第四推薦："+ \
+                          recommendation_res_list[3][0], variable = self.res_var, value = recommendation_res_list[3][0], command=lambda:[get_res(),master.switch_frame(PageFour)])
+        self.no5_option = Radiobutton(self, width = 20, height = 4, text="第五推薦："+ \
+                          recommendation_res_list[4][0], variable = self.res_var, value = recommendation_res_list[4][0], command=lambda:[get_res(),master.switch_frame(PageFour)])
+        self.no1_option.grid(row = 0, column = 1, sticky = 'n'+'s', pady = 5)
+        self.no2_option.grid(row = 1, column = 1, sticky = 'n'+'s', pady = 5)
+        self.no3_option.grid(row = 2, column = 1, sticky = 'n'+'s', pady = 5)
+        self.no4_option.grid(row = 3, column = 1, sticky = 'n'+'s', pady = 5)
+        self.no5_option.grid(row = 4, column = 1, sticky = 'n'+'s', pady = 5)
+
+class PageFour(Frame):    
+    
+    def __init__(self, master):
+        Frame.__init__(self, master)
+        # 上一步按鍵
+        self.back_btn = Button(self, text="回到上一頁", width=8, height=2, bg = "white",\
+        command=lambda: master.switch_frame(PageThree)).grid(row = 6, column = 2)
+        # 重來按鍵
+        self.restart_btn = Button(text = "重來", bg = "white", width=8, height=2,\
+        command=lambda: master.switch_frame(StartPage)).grid(row = 7, column = 2)
+        #餐廳名稱
+        self.res_name_label = Label(text= res.name + "的資訊", bg = "skyblue")
+        self.res_name_label.config(height=3,font ="微軟正黑體 20")
+        self.res_name_label.pack(side="top")
+        # 餐廳地址
+        self.res_address_label = Label(text="地址："+ name2address[res.name], bg = "skyblue")
+        self.res_address_label.config(height=3,font ="微軟正黑體 20")
+        self.res_address_label.pack(side="top")
+        # 餐廳電話
+        self.res_phone_label = Label(text= "電話："+name2phone[res.name], bg = "skyblue")
+        self.res_phone_label.config(height=3, font ="微軟正黑體 20")
+        self.res_phone_label.pack(side="top")
+        # 餐廳營業時間
+        self.res_time_label = Label(text="營業時間："+name2open[res.name], bg = "skyblue")
+        self.res_time_label.config(height=3, font ="微軟正黑體 20")
+        self.res_time_label.pack(side="top")
+        # 餐廳星級
+        self.res_star_label = Label(text="星級："+ name2stars[res.name], bg = "skyblue")
+        self.res_star_label.config(height=3, font ="微軟正黑體 20")
+        self.res_star_label.pack(side="top")
+        # 時間提醒
+        #self.info_label = Label(text="", bg = "white", width=8, height=2)
 if __name__ == "__main__":
     app = window()
     app.mainloop()
