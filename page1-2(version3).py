@@ -8,6 +8,13 @@ all_condition_list = []
 recommendation_res_list = []
 res_name = ""
 restaurant_dict = dict()
+name2locate = dict()
+name2meal = dict()
+name2style = dict()
+name2phone = dict()
+name2address = dict()
+name2stars = dict()
+name2open = dict()
 # 將視窗作為一個物件
 class window(Tk):
     def __init__(self):
@@ -23,7 +30,7 @@ class window(Tk):
         if self._frame is not None:
             self._frame.destroy()  # 關閉視窗
         self._frame = new_frame
-        self._frame.grid()
+        self._frame.pack()
 
 
 # 將開始頁面作為一個物件，設立一個框架 frame
@@ -382,12 +389,7 @@ class PageTwo(Frame):
         with open('C:\\Users\\ann17\\Desktop\\PBC-FINAL-PROJECT\\canteen.csv', 'r', encoding='utf-8') as f:  # 讀csv檔
             # 製作各種字典（除星期），之後可能會用到
             reader = csv.reader(f)
-            name2locate = dict()
-            name2meal = dict()
-            name2style = dict()
-            name2phone = dict()
-            name2address = dict()
-            name2stars = dict()  # 博文注意，多加了：星星的字典 在這!!
+            # 博文注意，多加了：星星的字典 在這!!
         
             # 前端注意!!請將input改成你們botton函數回傳的值
             global choose_meal, choose_locate, day, choose_style
@@ -398,10 +400,11 @@ class PageTwo(Frame):
             
             global restaurant_dict   # 點好後輸出的清單在這!!（博文、前端）
             
-            name2open = dict()  # 博文、振安：跑check_day的dictionary
+            # 博文、振安：跑check_day的dictionary
             for row in reader:  # 跑csv檔的每一行
                 row.pop(0)
                 # print(row)
+                global name2locate, name2meal, name2style, name2phone, name2address, name2stars, name2open
                 name2locate[row[0]] = row[1]
                 name2meal[row[0]] = row[2]
                 name2style[row[0]] = row[3]
@@ -409,7 +412,7 @@ class PageTwo(Frame):
                 name2address[row[0]] = row[5]
                 name2stars[row[0]] = row[6]
                 name2open[row[0]] = [row[8],row[10],row[12],row[14],row[16],row[18],row[20]]  # 博文、振安：跑check_day的dictionary
-                
+                print(name2open)
                 # 要class所需要的值
                 name = row[0]
                 locate = row[1]
@@ -513,6 +516,7 @@ class Restaurant:
 
 class PageThree(Frame):    
     def get_res(self):
+        global res_name
         res_name = self.res_var.get()
     def __init__(self, master):
         Frame.__init__(self, master)
@@ -537,30 +541,31 @@ class PageThree(Frame):
 class PageFour(Frame):    
     def __init__(self, master):
         Frame.__init__(self, master)
+        self.config(background="#4682B4")
         # 上一步按鍵
         self.back_btn = Button(self, text="回到上一頁", width=8, height=2, bg = "white",\
-        command=lambda: master.switch_frame(PageThree)).grid(row = 6, column = 2)
+        command=lambda: master.switch_frame(PageThree)).pack(side="left")
         # 重來按鍵
         self.restart_btn = Button(text = "重來", bg = "white", width=8, height=2,\
-        command=lambda: master.switch_frame(StartPage)).grid(row = 7, column = 2)
+        command=lambda: master.switch_frame(StartPage)).pack(side="right")
         #餐廳名稱
-        self.res_name_label = Label(text= res_name + "的資訊", bg = "skyblue")
+        self.res_name_label = Label(text= res_name + "的資訊", bg = "#4682B4")
         self.res_name_label.config(height=3,font ="微軟正黑體 20")
         self.res_name_label.pack(side="top")
         # 餐廳地址
-        self.res_address_label = Label(text="地址："+ name2address[res_name], bg = "skyblue")
+        self.res_address_label = Label(text="地址："+ name2address[res_name], bg = "#4682B4")
         self.res_address_label.config(height=3,font ="微軟正黑體 20")
         self.res_address_label.pack(side="top")
         # 餐廳電話
-        self.res_phone_label = Label(text= "電話："+name2phone[res_name], bg = "skyblue")
+        self.res_phone_label = Label(text= "電話："+name2phone[res_name], bg = "#4682B4")
         self.res_phone_label.config(height=3, font ="微軟正黑體 20")
         self.res_phone_label.pack(side="top")
         # 餐廳營業時間
-        self.res_time_label = Label(text="營業時間："+name2open[res_name], bg = "skyblue")
-        self.res_time_label.config(height=3, font ="微軟正黑體 20")
-        self.res_time_label.pack(side="top")
+        #self.res_time_label = Label(text="營業時間："+name2open[res_name], bg = "#4682B4")
+        #self.res_time_label.config(height=3, font ="微軟正黑體 20")
+        #self.res_time_label.pack(side="top")
         # 餐廳星級
-        self.res_star_label = Label(text="星級："+ name2stars[res_name], bg = "skyblue")
+        self.res_star_label = Label(text="星級："+ ",".join(name2stars[res_name]), bg = "#4682B4")
         self.res_star_label.config(height=3, font ="微軟正黑體 20")
         self.res_star_label.pack(side="top")
         # 時間提醒
