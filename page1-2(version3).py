@@ -522,23 +522,29 @@ class PageThree(Frame):
         res_name = self.res_var.get()
     def __init__(self, master):
         Frame.__init__(self, master)
+        self.config(background="#4682B4")
         global res_name
         self.res_var = StringVar()
-        self.no1_option = Radiobutton(self, width = 20, height = 4, text="第一推薦："+ \
+        self.no1_option = Radiobutton(self, width = 45, height = 2, text="第一推薦："+ \
                           recommendation_res_list[0][0], variable = self.res_var, value = recommendation_res_list[0][0], command=lambda:[self.get_res(),master.switch_frame(PageFour)],indicatoron = 0)
-        self.no2_option = Radiobutton(self, width = 20, height = 4, text="第二推薦："+ \
+        self.no2_option = Radiobutton(self, width = 45, height = 2, text="第二推薦："+ \
                           recommendation_res_list[1][0], variable = self.res_var, value = recommendation_res_list[1][0], command=lambda:[self.get_res(),master.switch_frame(PageFour)],indicatoron = 0)
-        self.no3_option = Radiobutton(self, width = 20, height = 4, text="第三推薦："+ \
+        self.no3_option = Radiobutton(self, width = 45, height = 2, text="第三推薦："+ \
                           recommendation_res_list[2][0], variable = self.res_var, value = recommendation_res_list[2][0], command=lambda:[self.get_res(),master.switch_frame(PageFour)],indicatoron = 0)
-        self.no4_option = Radiobutton(self, width = 20, height = 4, text="第四推薦："+ \
+        self.no4_option = Radiobutton(self, width = 45, height = 2, text="第四推薦："+ \
                           recommendation_res_list[3][0], variable = self.res_var, value = recommendation_res_list[3][0], command=lambda:[self.get_res(),master.switch_frame(PageFour)],indicatoron = 0)
-        self.no5_option = Radiobutton(self, width = 20, height = 4, text="第五推薦："+ \
+        self.no5_option = Radiobutton(self, width = 45, height = 2, text="第五推薦："+ \
                           recommendation_res_list[4][0], variable = self.res_var, value = recommendation_res_list[4][0], command=lambda:[self.get_res(),master.switch_frame(PageFour)],indicatoron = 0)
-        self.no1_option.pack(side="top")
-        self.no2_option.pack(side="top")
-        self.no3_option.pack(side="top")
-        self.no4_option.pack(side="top")
-        self.no5_option.pack(side="top")
+
+        self.top_label = Label(self, width = 20, height = 3, text="請點擊顯示資訊", fg = "white", font ="微軟正黑體 15")
+        self.top_label.config(background="#4682B4")
+        self.top_label.grid(row = 0, column = 1, sticky = 'n')
+
+        self.no1_option.grid(row = 1, column = 1, sticky = 's', pady = 10)
+        self.no2_option.grid(row = 2, column = 1, sticky = 'n'+'s', pady = 10)
+        self.no3_option.grid(row = 3, column = 1, sticky = 'n'+'s', pady = 10)
+        self.no4_option.grid(row = 4, column = 1, sticky = 'n'+'s', pady = 10)
+        self.no5_option.grid(row = 5, column = 1, sticky = 'n'+'s', pady = 10)
 
 class PageFour(Frame):  
     # page4 back
