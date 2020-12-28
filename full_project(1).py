@@ -2,9 +2,7 @@
 from tkinter import*
 import csv
 import datetime
-"""
-前端的部分由此開始
-"""
+
 all_condition_list = []
 recommendation_res_list = []
 res_name = ""
@@ -20,6 +18,80 @@ select2open = dict()
 weekday_chosen = ""
 select_day = ""
 reminder = ""
+
+def choose_style_sorted(choose_style):  # 為了演算法而讓每個類型有個分數
+    list_style = choose_style
+    # .split(',')
+    list_sequence_point = []
+    list_tmp = []
+    count = 99
+    for style in list_style:
+        list_tmp = []
+        list_tmp.append(style)
+        list_tmp.append(count)
+        count -= 1
+        list_sequence_point.append(list_tmp)
+
+    return list_sequence_point  # [[韓式, 99],[日式, 98],.....]
+
+def recommendation(restaurant_dict):
+    
+    """
+    這邊記得要改！！！
+    """
+    preference = all_condition_list[4][0] # 方案ㄧ排序還是方案二排序，這邊a是方案一（星數優先），b是方案二（類型優先）
+    if preference == 'planA':
+        recommendation_list = sorted(restaurant_dict.items(), key = lambda x: (x[1][3], x[1][4]), reverse = True)
+    else:
+        recommendation_list = sorted(restaurant_dict.items(), key = lambda x: (x[1][4], x[1][3]), reverse = True)
+
+    return recommendation_list
+
+class Restaurant:
+    def __init__ (self, name, meal, locate, style, day, name2open, star):
+        self.name = name  # 餐廳名稱
+        self.meal = meal  # 早中晚宵
+        self.locate = locate  # 地點
+        self.style = style  # 風格(Ex.日式)
+        # 博文：新加了兩個
+        self.day = day  # 輸入之日期
+        self.name2open = name2open  # 日期對應開放時間的dictionary
+        self.star = star
+    
+    def put_name(self):  # call餐廳名稱
+        return self.name
+
+    def check_meal(self):  # 所選時段餐廳有沒有開的布林
+        meallist = self.meal.split(', ')  # 預設為字串，前端用list設定選擇時段的話：可刪!!
+        cnt = 0
+        for meal in meallist:
+            cnt += 1
+            if meal in choose_meal:
+                return True  # 選擇的任一時段餐廳有開的話即回傳True
+                break
+            if cnt == len(meallist):
+                return False
+
+    def check_locate(self):  # 選擇地點並讓其回傳布林
+        if self.locate in choose_locate:
+            return True
+        else:
+            return False
+    
+    def check_day(self):  # 回傳選擇的日期有沒有開的布林
+        cnt = 0
+        weeklist = ['MON','TUE','WED','THU','FRI','SAT','SUN']
+        if self.name2open[self.name][weeklist.index(self.day)]== '':
+            return False
+        else:
+            return True
+
+    def check_style(self):  # 選擇風格並回傳布林
+        if self.style in choose_style:
+            return True
+        else:
+            return False
+
 # 將視窗作為一個物件
 class window(Tk):
     def __init__(self):
@@ -35,7 +107,7 @@ class window(Tk):
         if self._frame is not None:
             self._frame.destroy()  # 關閉視窗
         self._frame = new_frame
-        self._frame.pack()
+        self._frame.grid()
 
 
 # 將開始頁面作為一個物件，設立一個框架 frame
@@ -445,87 +517,18 @@ class PageTwo(Frame):
         
         global weekday_chosen
         weekday_chosen = all_condition_list[2][0]
+        
         # 重置、淨空 all_condition_list，否則重新搜尋時會和舊有的 list 衝突
         all_condition_list = [] 
         
 
-def choose_style_sorted(choose_style):  # 為了演算法而讓每個類型有個分數
-    list_style = choose_style
-    # .split(',')
-    list_sequence_point = []
-    list_tmp = []
-    count = 99
-    for style in list_style:
-        list_tmp = []
-        list_tmp.append(style)
-        list_tmp.append(count)
-        count -= 1
-        list_sequence_point.append(list_tmp)
 
-    return list_sequence_point  # [[韓式, 99],[日式, 98],.....]
-
-def recommendation(restaurant_dict):
-    
-    """
-    這邊記得要改！！！
-    """
-    preference = all_condition_list[4][0] # 方案ㄧ排序還是方案二排序，這邊a是方案一（星數優先），b是方案二（類型優先）
-    if preference == 'planA':
-        recommendation_list = sorted(restaurant_dict.items(), key = lambda x: (x[1][3], x[1][4]), reverse = True)
-    else:
-        recommendation_list = sorted(restaurant_dict.items(), key = lambda x: (x[1][4], x[1][3]), reverse = True)
-
-    return recommendation_list
-
-class Restaurant:
-    def __init__ (self, name, meal, locate, style, day, name2open, star):
-        self.name = name  # 餐廳名稱
-        self.meal = meal  # 早中晚宵
-        self.locate = locate  # 地點
-        self.style = style  # 風格(Ex.日式)
-        # 博文：新加了兩個
-        self.day = day  # 輸入之日期
-        self.name2open = name2open  # 日期對應開放時間的dictionary
-        self.star = star
-    
-    def put_name(self):  # call餐廳名稱
-        return self.name
-
-    def check_meal(self):  # 所選時段餐廳有沒有開的布林
-        meallist = self.meal.split(', ')  # 預設為字串，前端用list設定選擇時段的話：可刪!!
-        cnt = 0
-        for meal in meallist:
-            cnt += 1
-            if meal in choose_meal:
-                return True  # 選擇的任一時段餐廳有開的話即回傳True
-                break
-            if cnt == len(meallist):
-                return False
-
-    def check_locate(self):  # 選擇地點並讓其回傳布林
-        if self.locate in choose_locate:
-            return True
-        else:
-            return False
-    
-    def check_day(self):  # 回傳選擇的日期有沒有開的布林
-        cnt = 0
-        weeklist = ['MON','TUE','WED','THU','FRI','SAT','SUN']
-        if self.name2open[self.name][weeklist.index(self.day)]== '':
-            return False
-        else:
-            return True
-
-    def check_style(self):  # 選擇風格並回傳布林
-        if self.style in choose_style:
-            return True
-        else:
-            return False
 
 class PageThree(Frame):    
     def get_res(self):
         global res_name
         res_name = self.res_var.get()
+        
     def __init__(self, master):
         Frame.__init__(self, master)
         self.config(background="#4682B4")
@@ -553,43 +556,6 @@ class PageThree(Frame):
         self.no3_option.grid(row = 3, column = 1, sticky = 'n'+'s', pady = 10)
         self.no4_option.grid(row = 4, column = 1, sticky = 'n'+'s', pady = 10)
         self.no5_option.grid(row = 5, column = 1, sticky = 'n'+'s', pady = 10)
-
-class PageFive(Frame):    
-    def get_res(self):
-        global res_name
-        res_name = self.res_var.get()
-    def __init__(self, master):
-        Frame.__init__(self, master)
-        self.config(background="#4682B4")
-        global res_name
-        self.change_btn = Button(self, text="換一批", width=20, height=2, bg = "white", command=lambda: master.switch_frame(PageFive)).grid(row = 5, column = 3, sticky = 'w'+'e')
-        self.back_btn = Button(self, text="上一步", width=20, height=2, bg = "white", command=lambda: master.switch_frame(PageThree)).grid(row = 5, column = 2, sticky = 'w'+'e')
-        self.res_var = StringVar()
-        self.no1_option = Radiobutton(self, width = 45, height = 2, text="第一推薦："+ \
-                          recommendation_res_list[5][0], variable = self.res_var, value = recommendation_res_list[5][0], command=lambda:[self.get_res(),master.switch_frame(PageFour)],indicatoron = 0)
-        self.no2_option = Radiobutton(self, width = 45, height = 2, text="第二推薦："+ \
-                          recommendation_res_list[6][0], variable = self.res_var, value = recommendation_res_list[6][0], command=lambda:[self.get_res(),master.switch_frame(PageFour)],indicatoron = 0)
-        self.no3_option = Radiobutton(self, width = 45, height = 2, text="第三推薦："+ \
-                          recommendation_res_list[7][0], variable = self.res_var, value = recommendation_res_list[7][0], command=lambda:[self.get_res(),master.switch_frame(PageFour)],indicatoron = 0)
-        self.no4_option = Radiobutton(self, width = 45, height = 2, text="第四推薦："+ \
-                          recommendation_res_list[8][0], variable = self.res_var, value = recommendation_res_list[8][0], command=lambda:[self.get_res(),master.switch_frame(PageFour)],indicatoron = 0)
-        self.no5_option = Radiobutton(self, width = 45, height = 2, text="第五推薦："+ \
-                          recommendation_res_list[9][0], variable = self.res_var, value = recommendation_res_list[9][0], command=lambda:[self.get_res(),master.switch_frame(PageFour)],indicatoron = 0)
-
-        self.top_label = Label(self, width = 20, height = 3, text="請點擊顯示資訊", fg = "white", font ="微軟正黑體 15")
-        self.top_label.config(background="#4682B4")
-        self.top_label.grid(row = 0, column = 1, sticky = 'n')
-
-        self.no1_option.grid(row = 1, column = 1, sticky = 's', pady = 10)
-        self.no2_option.grid(row = 2, column = 1, sticky = 'n'+'s', pady = 10)
-        self.no3_option.grid(row = 3, column = 1, sticky = 'n'+'s', pady = 10)
-        self.no4_option.grid(row = 4, column = 1, sticky = 'n'+'s', pady = 10)
-        self.no5_option.grid(row = 5, column = 1, sticky = 'n'+'s', pady = 10)
-        
-        self.back_btn = Button(
-            self, text="回到上一頁", width=20, height=2, 
-            bg = "white", command=lambda: master.switch_frame(StartPage)).grid(
-                row = 5, column = 3, sticky = 'w'+'e')
 
 class PageFour(Frame):  
     # page4 back
@@ -698,29 +664,70 @@ class PageFour(Frame):
         #餐廳名稱
         self.res_name_label = Label(text= res_name + "的資訊", bg = "#4682B4")
         self.res_name_label.config(height=2,fg = "white",font ="微軟正黑體 18")
-        self.res_name_label.pack(side="top")
+        self.res_name_label.grid(row = 0)
         # 餐廳地址
         self.res_address_label = Label(text="地址："+ name2address[res_name], bg = "#4682B4")
         self.res_address_label.config(height=2,fg = "white",font ="微軟正黑體 18")
-        self.res_address_label.pack(side="top")
+        self.res_address_label.grid(row = 1)
         # 餐廳電話
         self.res_phone_label = Label(text= "電話："+name2phone[res_name], bg = "#4682B4")
         self.res_phone_label.config(height=2,fg = "white",font ="微軟正黑體 18")
-        self.res_phone_label.pack(side="top")
+        self.res_phone_label.grid(row = 2)
         # 餐廳營業時間
         self.res_time_label = Label(text= weekday_chosen + "營業時間："+ select2open[weekday_chosen], bg = "#4682B4")
         self.res_time_label.config(height=2,fg = "white",font ="微軟正黑體 18")
-        self.res_time_label.pack(side="top")
+        self.res_time_label.grid(row = 3)
         # 餐廳星級
         self.res_star_label = Label(text="星級："+ name2stars[res_name], bg = "#4682B4")
         self.res_star_label.config(height=2,fg = "white",font ="微軟正黑體 18")
-        self.res_star_label.pack(side="top")
+        self.res_star_label.grid(row = 4)
         # 時間提醒
         if weekday_chosen == select_day:
             self.info_label = Label(text="今天的話："+reminder, bg = "#4682B4")
             self.info_label.config(height=2,fg = "white",font ="微軟正黑體 18")
-            self.info_label.pack(side="top")
+            self.info_label.grid(row = 5)
         
+
+
+
+class PageFive(Frame):    
+    def get_res(self):
+        global res_name
+        res_name = self.res_var.get()
+    def __init__(self, master):
+        Frame.__init__(self, master)
+        self.config(background="#4682B4")
+        global res_name
+        self.change_btn = Button(self, text="換一批", width=20, height=2, bg = "white", command=lambda: master.switch_frame(PageFive)).grid(row = 5, column = 3, sticky = 'w'+'e')
+        self.back_btn = Button(self, text="上一步", width=20, height=2, bg = "white", command=lambda: master.switch_frame(PageThree)).grid(row = 5, column = 2, sticky = 'w'+'e')
+        self.res_var = StringVar()
+        self.no1_option = Radiobutton(self, width = 45, height = 2, text="第一推薦："+ \
+                          recommendation_res_list[5][0], variable = self.res_var, value = recommendation_res_list[5][0], command=lambda:[self.get_res(),master.switch_frame(PageFour)],indicatoron = 0)
+        self.no2_option = Radiobutton(self, width = 45, height = 2, text="第二推薦："+ \
+                          recommendation_res_list[6][0], variable = self.res_var, value = recommendation_res_list[6][0], command=lambda:[self.get_res(),master.switch_frame(PageFour)],indicatoron = 0)
+        self.no3_option = Radiobutton(self, width = 45, height = 2, text="第三推薦："+ \
+                          recommendation_res_list[7][0], variable = self.res_var, value = recommendation_res_list[7][0], command=lambda:[self.get_res(),master.switch_frame(PageFour)],indicatoron = 0)
+        self.no4_option = Radiobutton(self, width = 45, height = 2, text="第四推薦："+ \
+                          recommendation_res_list[8][0], variable = self.res_var, value = recommendation_res_list[8][0], command=lambda:[self.get_res(),master.switch_frame(PageFour)],indicatoron = 0)
+        self.no5_option = Radiobutton(self, width = 45, height = 2, text="第五推薦："+ \
+                          recommendation_res_list[9][0], variable = self.res_var, value = recommendation_res_list[9][0], command=lambda:[self.get_res(),master.switch_frame(PageFour)],indicatoron = 0)
+
+        self.top_label = Label(self, width = 20, height = 3, text="請點擊顯示資訊", fg = "white", font ="微軟正黑體 15")
+        self.top_label.config(background="#4682B4")
+        self.top_label.grid(row = 0, column = 1, sticky = 'n')
+
+        self.no1_option.grid(row = 1, column = 1, sticky = 's', pady = 10)
+        self.no2_option.grid(row = 2, column = 1, sticky = 'n'+'s', pady = 10)
+        self.no3_option.grid(row = 3, column = 1, sticky = 'n'+'s', pady = 10)
+        self.no4_option.grid(row = 4, column = 1, sticky = 'n'+'s', pady = 10)
+        self.no5_option.grid(row = 5, column = 1, sticky = 'n'+'s', pady = 10)
+        
+        self.back_btn = Button(
+            self, text="回到上一頁", width=20, height=2, 
+            bg = "white", command=lambda: master.switch_frame(StartPage)).grid(
+                row = 5, column = 3, sticky = 'w'+'e')
+
+
 if __name__ == "__main__":
     app = window()
     app.mainloop()
