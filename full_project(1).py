@@ -530,6 +530,8 @@ class PageThree(Frame):
         Frame.__init__(self, master)
         self.config(background="#4682B4")
         global res_name
+        self.change_btn = Button(self, text="換一批", width=20, height=2, bg = "white", command=lambda: master.switch_frame(PageFive)).grid(row = 5, column = 3, sticky = 'w'+'e')
+        self.back_btn = Button(self, text="上一步", width=20, height=2, bg = "white", command=lambda: master.switch_frame(PageTwo)).grid(row = 5, column = 2, sticky = 'w'+'e')
         self.res_var = StringVar()
         self.no1_option = Radiobutton(self, width = 45, height = 2, text="第一推薦："+ \
                           recommendation_res_list[0][0], variable = self.res_var, value = recommendation_res_list[0][0], command=lambda:[self.get_res(),master.switch_frame(PageFour)],indicatoron = 0)
@@ -551,6 +553,43 @@ class PageThree(Frame):
         self.no3_option.grid(row = 3, column = 1, sticky = 'n'+'s', pady = 10)
         self.no4_option.grid(row = 4, column = 1, sticky = 'n'+'s', pady = 10)
         self.no5_option.grid(row = 5, column = 1, sticky = 'n'+'s', pady = 10)
+
+class PageFive(Frame):    
+    def get_res(self):
+        global res_name
+        res_name = self.res_var.get()
+    def __init__(self, master):
+        Frame.__init__(self, master)
+        self.config(background="#4682B4")
+        global res_name
+        self.change_btn = Button(self, text="換一批", width=20, height=2, bg = "white", command=lambda: master.switch_frame(PageFive)).grid(row = 5, column = 3, sticky = 'w'+'e')
+        self.back_btn = Button(self, text="上一步", width=20, height=2, bg = "white", command=lambda: master.switch_frame(PageThree)).grid(row = 5, column = 2, sticky = 'w'+'e')
+        self.res_var = StringVar()
+        self.no1_option = Radiobutton(self, width = 45, height = 2, text="第一推薦："+ \
+                          recommendation_res_list[5][0], variable = self.res_var, value = recommendation_res_list[5][0], command=lambda:[self.get_res(),master.switch_frame(PageFour)],indicatoron = 0)
+        self.no2_option = Radiobutton(self, width = 45, height = 2, text="第二推薦："+ \
+                          recommendation_res_list[6][0], variable = self.res_var, value = recommendation_res_list[6][0], command=lambda:[self.get_res(),master.switch_frame(PageFour)],indicatoron = 0)
+        self.no3_option = Radiobutton(self, width = 45, height = 2, text="第三推薦："+ \
+                          recommendation_res_list[7][0], variable = self.res_var, value = recommendation_res_list[7][0], command=lambda:[self.get_res(),master.switch_frame(PageFour)],indicatoron = 0)
+        self.no4_option = Radiobutton(self, width = 45, height = 2, text="第四推薦："+ \
+                          recommendation_res_list[8][0], variable = self.res_var, value = recommendation_res_list[8][0], command=lambda:[self.get_res(),master.switch_frame(PageFour)],indicatoron = 0)
+        self.no5_option = Radiobutton(self, width = 45, height = 2, text="第五推薦："+ \
+                          recommendation_res_list[9][0], variable = self.res_var, value = recommendation_res_list[9][0], command=lambda:[self.get_res(),master.switch_frame(PageFour)],indicatoron = 0)
+
+        self.top_label = Label(self, width = 20, height = 3, text="請點擊顯示資訊", fg = "white", font ="微軟正黑體 15")
+        self.top_label.config(background="#4682B4")
+        self.top_label.grid(row = 0, column = 1, sticky = 'n')
+
+        self.no1_option.grid(row = 1, column = 1, sticky = 's', pady = 10)
+        self.no2_option.grid(row = 2, column = 1, sticky = 'n'+'s', pady = 10)
+        self.no3_option.grid(row = 3, column = 1, sticky = 'n'+'s', pady = 10)
+        self.no4_option.grid(row = 4, column = 1, sticky = 'n'+'s', pady = 10)
+        self.no5_option.grid(row = 5, column = 1, sticky = 'n'+'s', pady = 10)
+        
+        self.back_btn = Button(
+            self, text="回到上一頁", width=20, height=2, 
+            bg = "white", command=lambda: master.switch_frame(StartPage)).grid(
+                row = 5, column = 3, sticky = 'w'+'e')
 
 class PageFour(Frame):  
     # page4 back
@@ -647,43 +686,39 @@ class PageFour(Frame):
                     reminder = '還有一個半小時就要關門囉！要吃要快'
                 else:  # 正常情況
                     reminder = '目前正在賣窩！可以去吃'
-        else:
-            reminder = "你所選的時段不是今天呦"
     f.close
     # print(type(select2open[select_day]))
     def __init__(self, master):
         Frame.__init__(self, master)
         self.config(background="#4682B4")
         # 上一步按鍵
-        self.back_btn = Button(self, text="回到上一頁", width=8, height=2, bg = "white",\
-        command=lambda: master.switch_frame(PageThree)).pack(side="left")
-        # 重來按鍵
-        self.restart_btn = Button(text = "重來", bg = "white", width=8, height=2,\
-        command=lambda: master.switch_frame(StartPage)).pack(side="right")
+        self.back_btn = Button(self, text="上一步", width=20, height=2, bg = "white", command=lambda: master.switch_frame(PageThree)).grid(row = 5, column = 2, sticky = 'w'+'e')        # 重來按鍵
+        self.restart_btn = Button(self, text="重來", width=20, height=2, bg = "white", command=lambda: master.switch_frame(StartPage)).grid(row = 5, column = 3, sticky = 'w'+'e')
         #餐廳名稱
         self.res_name_label = Label(text= res_name + "的資訊", bg = "#4682B4")
-        self.res_name_label.config(height=2,font ="微軟正黑體 18")
+        self.res_name_label.config(height=2,fg = "white",font ="微軟正黑體 18")
         self.res_name_label.pack(side="top")
         # 餐廳地址
         self.res_address_label = Label(text="地址："+ name2address[res_name], bg = "#4682B4")
-        self.res_address_label.config(height=2,font ="微軟正黑體 18")
+        self.res_address_label.config(height=2,fg = "white",font ="微軟正黑體 18")
         self.res_address_label.pack(side="top")
         # 餐廳電話
         self.res_phone_label = Label(text= "電話："+name2phone[res_name], bg = "#4682B4")
-        self.res_phone_label.config(height=2, font ="微軟正黑體 18")
+        self.res_phone_label.config(height=2,fg = "white",font ="微軟正黑體 18")
         self.res_phone_label.pack(side="top")
         # 餐廳營業時間
-        self.res_time_label = Label(text="該天營業時間："+ select2open[weekday_chosen], bg = "#4682B4")
-        self.res_time_label.config(height=2, font ="微軟正黑體 18")
+        self.res_time_label = Label(text= weekday_chosen + "營業時間："+ select2open[weekday_chosen], bg = "#4682B4")
+        self.res_time_label.config(height=2,fg = "white",font ="微軟正黑體 18")
         self.res_time_label.pack(side="top")
         # 餐廳星級
         self.res_star_label = Label(text="星級："+ name2stars[res_name], bg = "#4682B4")
-        self.res_star_label.config(height=2, font ="微軟正黑體 18")
+        self.res_star_label.config(height=2,fg = "white",font ="微軟正黑體 18")
         self.res_star_label.pack(side="top")
         # 時間提醒
-        self.info_label = Label(text="今天的話："+reminder, bg = "#4682B4")
-        self.info_label.config(height=2, font ="微軟正黑體 18")
-        self.info_label.pack(side="top")
+        if weekday_chosen == select_day:
+            self.info_label = Label(text="今天的話："+reminder, bg = "#4682B4")
+            self.info_label.config(height=2,fg = "white",font ="微軟正黑體 18")
+            self.info_label.pack(side="top")
         
 if __name__ == "__main__":
     app = window()
