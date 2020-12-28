@@ -40,9 +40,9 @@ def recommendation(restaurant_dict):
     這邊記得要改！！！
     """
     preference = all_condition_list[4][0] # 方案ㄧ排序還是方案二排序，這邊a是方案一（星數優先），b是方案二（類型優先）
-    if preference == 'planA':
+    if preference == '星數優先':
         recommendation_list = sorted(restaurant_dict.items(), key = lambda x: (x[1][3], x[1][4]), reverse = True)
-    else:
+    elif preference == '風格優先':
         recommendation_list = sorted(restaurant_dict.items(), key = lambda x: (x[1][4], x[1][3]), reverse = True)
 
     return recommendation_list
@@ -303,9 +303,9 @@ class PageTwo(Frame):
         self.style_plan_check_bool = False
         
         
-        self.type_label = Label(self, width = 15, height = 3, text="風格志願序", fg = "white", font ="微軟正黑體 15")
-        self.type_label.config(background="#4682B4")
-        self.type_label.grid(row = 0, column = 1, sticky = 'n')
+        self.space_label = Label(self, width = 15, height = 3, text="")
+        self.space_label.config(background="#4682B4")
+        self.space_label.grid(row = 0, column = 1, sticky = 'n')
         
         
         
@@ -401,7 +401,7 @@ class PageTwo(Frame):
 
 
         # 排序下拉式選單
-        order_List = ["planA", "planB"]
+        order_List = ["星數優先", "風格優先"]
         self.order_variable = StringVar(self)
         self.order_variable.set(["請選擇排序方式"])
         order_pull = OptionMenu(self, self.order_variable, *order_List)
