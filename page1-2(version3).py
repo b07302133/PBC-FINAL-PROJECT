@@ -16,6 +16,8 @@ name2phone = dict()
 name2address = dict()
 name2stars = dict()
 name2open = dict()
+select2open = dict()
+select_day = ""
 # 將視窗作為一個物件
 class window(Tk):
     def __init__(self):
@@ -564,7 +566,7 @@ class PageFour(Frame):
     with open('canteen.csv', 'r', encoding='utf-8') as f:
         reader = csv.reader(f)
         name2run_time = dict()
-        select2open = dict()
+        global select2open
         for row in reader: 
             row.pop(0)
             name2run_time[row[0]] = 'MON:'+row[8]+'\n'+'TUE:'+row[10]+'\n'+'WED:'+row[12]+'\n'+'THU:'+row[14]+'\n'+'FRI:'+row[16]+'\n'+'SAT:'+row[18]+'\n'+'SUN:'+row[20]
@@ -578,7 +580,9 @@ class PageFour(Frame):
                 select2open['FRI'] = select_row[16]
                 select2open['SAT'] = select_row[18]
                 select2open['SUN'] = select_row[20]
+        global select_day
         select_day = num2day[datetime.datetime.now().weekday()]  # 看使用者當時使用時是星期幾
+        # print(select_day)
         time_data_list = select2open[select_day].split(', ')  # 所選餐廳當天的營業時間叫time_data_list(因為很多餐廳中午晚上之間有休息，所以用list存)
     # print(time_data_list)
     
@@ -640,7 +644,7 @@ class PageFour(Frame):
             else:  # 正常情況
                 print('正在賣窩！可以去吃')
     f.close
-    
+    print(type(select2open[select_day]))
     def __init__(self, master):
         Frame.__init__(self, master)
         self.config(background="#4682B4")
@@ -663,8 +667,8 @@ class PageFour(Frame):
         self.res_phone_label.config(height=3, font ="微軟正黑體 20")
         self.res_phone_label.pack(side="top")
         # 餐廳營業時間
-        self.res_time_label = Label(text="營業時間："+",".join(name2open[res_name]), bg = "#4682B4")
-        self.res_time_label.config(height=3, font ="微軟正黑體 20")
+        self.res_time_label = Label(text="營業時間："+ select2open[select_day], bg = "#4682B4")
+        self.res_time_label.config(height=1, font ="微軟正黑體 12")
         self.res_time_label.pack(side="top")
         # 餐廳星級
         self.res_star_label = Label(text="星級："+ name2stars[res_name], bg = "#4682B4")
