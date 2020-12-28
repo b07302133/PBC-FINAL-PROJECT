@@ -288,7 +288,7 @@ class PageTwo(Frame):
         self.style_variable1.set(["請選擇風格"])
         style_pull1 = OptionMenu(self, self.style_variable1, *style_List)
         style_pull1.config(width = 20, font=('Helvetica', 10))
-        style_pull1.grid(row = 1, column = 1, sticky = 'n'+'s', pady = 5)
+        style_pull1.grid(row = 1, column = 1, sticky = 's', pady = 5)
 
 
         # # 第二偏好下拉清單設置
