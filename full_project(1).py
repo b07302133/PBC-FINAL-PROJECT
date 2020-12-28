@@ -694,6 +694,7 @@ class PageFour(Frame):
         # 上一步按鍵
         self.back_btn = Button(self, text="上一步", width=20, height=2, bg = "white", command=lambda: master.switch_frame(PageThree)).grid(row = 5, column = 2, sticky = 'w'+'e')        # 重來按鍵
         self.restart_btn = Button(self, text="重來", width=20, height=2, bg = "white", command=lambda: master.switch_frame(StartPage)).grid(row = 5, column = 3, sticky = 'w'+'e')
+        self.comment_btn = Button(self, text="重來", width=20, height=2, bg = "white", command=lambda: master.switch_frame(StartPage)).grid(row = 5, column = 3, sticky = 'w'+'e')
         #餐廳名稱
         self.res_name_label = Label(text= res_name + "的資訊", bg = "#4682B4")
         self.res_name_label.config(height=2,fg = "white",font ="微軟正黑體 18")
