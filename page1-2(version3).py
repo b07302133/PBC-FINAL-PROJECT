@@ -359,22 +359,19 @@ class PageTwo(Frame):
     def all_check(self):
         global all_condition_list
         global recommendation_res_list
-        if self.style_plan_check_bool == False:
-            self.style_plan_check_bool = True
-            
-            list_input = [self.style_variable1_selection(),
-                          self.style_variable2_selection(),
-                          self.style_variable3_selection(),
-                          self.style_variable4_selection(),
-                          self.style_variable5_selection()]
-            
-            all_condition_list.append(list_input)
-            
-            list_input = self.order_selection()
-            all_condition_list.append([list_input])
-            
-        else:
-            self.style_plan_check_bool = False
+        
+        list_input = [self.style_variable1_selection(),
+                      self.style_variable2_selection(),
+                      self.style_variable3_selection(),
+                      self.style_variable4_selection(),
+                      self.style_variable5_selection()]
+        
+        all_condition_list.append(list_input)
+        
+        list_input = self.order_selection()
+        all_condition_list.append([list_input])
+        
+
         
         # 檢查用
         # print(all_condition_list)         # 印出整個 list
@@ -386,7 +383,7 @@ class PageTwo(Frame):
 
 
         # 須注意路徑
-        with open('C:\\Users\\ann17\\Desktop\\PBC-FINAL-PROJECT\\canteen.csv', 'r', encoding='utf-8') as f:  # 讀csv檔
+        with open('canteen.csv', 'r', encoding='utf-8') as f:  # 讀csv檔
             # 製作各種字典（除星期），之後可能會用到
             reader = csv.reader(f)
             # 博文注意，多加了：星星的字典 在這!!
@@ -436,9 +433,12 @@ class PageTwo(Frame):
         
         print(all_condition_list)
         print(recommendation(restaurant_dict))
-        print(type(recommendation(restaurant_dict)))
+        # print(type(recommendation(restaurant_dict)))
         # 排完餐廳順序
         recommendation_res_list = recommendation(restaurant_dict)
+        
+        # 重置、淨空 all_condition_list，否則重新搜尋時會和舊有的 list 衝突
+        all_condition_list = [] 
         
 
 def choose_style_sorted(choose_style):  # 為了演算法而讓每個類型有個分數
@@ -570,6 +570,7 @@ class PageFour(Frame):
         self.res_star_label.pack(side="top")
         # 時間提醒
         #self.info_label = Label(text="", bg = "white", width=8, height=2)
+        
 if __name__ == "__main__":
     app = window()
     app.mainloop()
