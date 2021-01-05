@@ -558,101 +558,7 @@ class PageThree(Frame):
         self.no5_option.grid(row = 5, column = 1, sticky = 'n'+'s', pady = 10)
 
 class PageFour(Frame):  
-    # page4 back
-    current_time = datetime.datetime.now()  # 前端：這是當下的時間，你們「距離休息時間」的botton按下去函示就可以把這個時間接住，拿來跟營業時間比
-    # print(current_time)
-    current_hour = int(str(current_time)[str(current_time).find(' ')+1:str(current_time).find(':')]) # 我把current_time換成整數(小時)才好比較
-    # print(current_hour)
-    # datetime的星期是用數字計，所以我用dictionary讓他記得我們星期botton的命名方式
-    num2day = dict()
-    num2day[0] = 'MON'
-    num2day[1] = 'TUE'
-    num2day[2] = 'WED'
-    num2day[3] = 'THU'
-    num2day[4] = 'FRI'
-    num2day[5] = 'SAT'
-    num2day[6] = 'SUN'
-    with open('canteen.csv', 'r', encoding='utf-8') as f:
-        reader = csv.reader(f)
-        global select2open
-        for row in reader: 
-            row.pop(0)
-            res_name="雲香亭"
-            if row[0] == res_name:
-                select_row = row
-                select2open['MON'] = select_row[8]
-                select2open['TUE'] = select_row[10]
-                select2open['WED'] = select_row[12]
-                select2open['THU'] = select_row[14]
-                select2open['FRI'] = select_row[16]
-                select2open['SAT'] = select_row[18]
-                select2open['SUN'] = select_row[20]
-        global select_day
-        select_day = num2day[datetime.datetime.now().weekday()]  # 看使用者當時使用時是星期幾
-        # print(select_day)
-        time_data_list = select2open[select_day].split(', ')  # 所選餐廳當天的營業時間叫time_data_list(因為很多餐廳中午晚上之間有休息，所以用list存)
-    # print(time_data_list)
-    
-    # 因為很多餐廳一天開兩次店(中餐，晚餐)，所以要先篩選使用者當下的時間和哪個開店的時間比較近，先刪掉比較遠的
-        open_max = -25
-        for time in time_data_list:
-            if '~' in time:
-                open_hour = int(time[:time.find('~')-3])
-            # print(open_hour)
-                close_hour = int(time[time.find('~')+1:len(time)-3])
-                if (current_hour - open_hour) > open_max:
-                    open_max = (current_hour - open_hour)
-                    open_time_str = (time[:time.find('~')]+':00.000000')
-                    close_time_str = (time[time.find('~')+1:]+':00.000000')
-            
-            if '–' in time:  # 有的人時間輸'-'，所以再做一次
-                open_hour = int(time[:time.find('–')-3])
-                close_hour = int(time[time.find('–')+1:len(time)-3])
-                if (current_hour - open_hour) > open_max:
-                    open_max = (current_hour - open_hour)
-                    open_time_str = (time[:time.find('–')]+':00.000000')
-                    close_time_str = (time[time.find('–')+1:]+':00.000000')
 
-    
-    # 將open_time_str轉化成可比較的數值(轉化順序: 有符號的str - datetime - 只有數字的str - int)
-        open_time = datetime.datetime.strptime(open_time_str, '%H:%M:%S.%f')
-        time_passStr = str(current_time - open_time)
-        min_passStr = time_passStr[time_passStr.find('s')+3:]
-    # min_pass是已經開店多少分鐘的意思
-        min_pass = int(min_passStr[:min_passStr.find(':')])*60 + int(min_passStr[min_passStr.find(':')+1:min_passStr.find(':')+3])
-
-    # 將close_time_str轉化成可比較的數值(轉化順序: 有符號的str - datetime - 只有數字的str - int)
-        close_time = datetime.datetime.strptime(close_time_str, '%H:%M:%S.%f')
-        time_leftStr = str(close_time - current_time)
-        min_leftStr = time_leftStr[time_leftStr.find('s')+3:]
-    # min_left是還剩幾分鐘關店的意思
-        min_left = int(min_leftStr[:min_leftStr.find(':')])*60 + int(min_leftStr[min_leftStr.find(':')+1:min_leftStr.find(':')+3])
-    
-    # print(min_pass)
-    # print(min_left)
-    
-        run_timeStr = str(close_time - open_time)  # 篩選出來我們要比較的營業時間
-    # print(run_timeStr)
-    # 用分鐘計營業總時長
-        if run_timeStr == '0:00:00':  # 不打烊的話
-            run_time = 1440
-        elif 'day' in run_timeStr:  # 營業久到關店比開店早的話(Ex. ['07:00~00:00']會變成: -1 day, 17:00:00)
-            run_time = int(run_timeStr[run_timeStr.find(',')+2:run_timeStr.find(':')])*60 + int(run_timeStr[run_timeStr.find(':')+1:run_timeStr.find(':')+3])
-        else: # 正常的情況
-            run_time = int(run_timeStr[:run_timeStr.find(':')])*60 + int(run_timeStr[run_timeStr.find(':')+1:run_timeStr.find(':')+3])
-    # print(run_time)
-
-    # 最後印出來的結果，設計對白供前端參考
-        global reminder
-        if weekday_chosen == select_day:
-            if min_pass > run_time:  # 已經開店的時間大於營業總時常的話，就代表已經關店了
-                reminder = '目前還沒開窩！再等等'
-            else:
-                if min_left <= 90:  # 小於90分鐘，提醒注意
-                    reminder = '還有一個半小時就要關門囉！要吃要快'
-                else:  # 正常情況
-                    reminder = '目前正在賣窩！可以去吃'
-    f.close
     # print(type(select2open[select_day]))
     def __init__(self, master):
         Frame.__init__(self, master)
@@ -672,10 +578,6 @@ class PageFour(Frame):
         self.res_phone_label = Label(text= "電話："+name2phone[res_name], bg = "#4682B4")
         self.res_phone_label.config(height=2,fg = "white",font ="微軟正黑體 18")
         self.res_phone_label.grid(row = 2)
-        # 餐廳營業時間
-        self.res_time_label = Label(text= weekday_chosen + "的營業時間："+ select2open[weekday_chosen], bg = "#4682B4")
-        self.res_time_label.config(height=2,fg = "white",font ="微軟正黑體 18")
-        self.res_time_label.grid(row = 3)
         # 餐廳星級
         self.res_star_label = Label(text="星級："+ name2stars[res_name], bg = "#4682B4")
         self.res_star_label.config(height=2,fg = "white",font ="微軟正黑體 18")
@@ -685,12 +587,112 @@ class PageFour(Frame):
         self.res_star_label.config(height=2,fg = "white",font ="微軟正黑體 18")
         self.res_star_label.grid(row = 5)
         # 時間提醒
+    
+        current_time = datetime.datetime.now()  # 前端：這是當下的時間，你們「距離休息時間」的botton按下去函示就可以把這個時間接住，拿來跟營業時間比
+        # print(current_time)
+        current_hour = int(str(current_time)[str(current_time).find(' ')+1:str(current_time).find(':')]) # 我把current_time換成整數(小時)才好比較
+        # print(current_hour)
+        # datetime的星期是用數字計，所以我用dictionary讓他記得我們星期botton的命名方式
+        num2day = dict()
+        num2day[0] = 'MON'
+        num2day[1] = 'TUE'
+        num2day[2] = 'WED'
+        num2day[3] = 'THU'
+        num2day[4] = 'FRI'
+        num2day[5] = 'SAT'
+        num2day[6] = 'SUN'
+        with open('canteen.csv', 'r', encoding='utf-8') as f:
+            reader = csv.reader(f)
+            global select2open
+            for row in reader: 
+                row.pop(0)
+                if row[0] == res_name:
+                    select_row = row
+                    select2open['MON'] = select_row[8]
+                    select2open['TUE'] = select_row[10]
+                    select2open['WED'] = select_row[12]
+                    select2open['THU'] = select_row[14]
+                    select2open['FRI'] = select_row[16]
+                    select2open['SAT'] = select_row[18]
+                    select2open['SUN'] = select_row[20]
+            global select_day
+            select_day = num2day[datetime.datetime.now().weekday()]  # 看使用者當時使用時是星期幾
+            # print(select_day)
+            time_data_list = select2open[select_day].split(', ')  # 所選餐廳當天的營業時間叫time_data_list(因為很多餐廳中午晚上之間有休息，所以用list存)
+            # print(time_data_list)
+    
+            # 因為很多餐廳一天開兩次店(中餐，晚餐)，所以要先篩選使用者當下的時間和哪個開店的時間比較近，先刪掉比較遠的
+            open_max = -25
+            for time in time_data_list:
+                if '~' in time:
+                    open_hour = int(time[:time.find('~')-3])
+                # print(open_hour)
+                    close_hour = int(time[time.find('~')+1:len(time)-3])
+                    if (current_hour - open_hour) > open_max:
+                        open_max = (current_hour - open_hour)
+                        open_time_str = (time[:time.find('~')]+':00.000000')
+                        close_time_str = (time[time.find('~')+1:]+':00.000000')
+    
+                if '–' in time:  # 有的人時間輸'-'，所以再做一次
+                    open_hour = int(time[:time.find('–')-3])
+                    close_hour = int(time[time.find('–')+1:len(time)-3])
+                    if (current_hour - open_hour) > open_max:
+                        open_max = (current_hour - open_hour)
+                        open_time_str = (time[:time.find('–')]+':00.000000')
+                        close_time_str = (time[time.find('–')+1:]+':00.000000')
+
+    
+            # 將open_time_str轉化成可比較的數值(轉化順序: 有符號的str - datetime - 只有數字的str - int)
+            open_time = datetime.datetime.strptime(open_time_str, '%H:%M:%S.%f')
+            time_passStr = str(current_time - open_time)
+            min_passStr = time_passStr[time_passStr.find('s')+3:]
+            # min_pass是已經開店多少分鐘的意思
+            min_pass = int(min_passStr[:min_passStr.find(':')])*60 + int(min_passStr[min_passStr.find(':')+1:min_passStr.find(':')+3])
+
+            # 將close_time_str轉化成可比較的數值(轉化順序: 有符號的str - datetime - 只有數字的str - int)
+            close_time = datetime.datetime.strptime(close_time_str, '%H:%M:%S.%f')
+            time_leftStr = str(close_time - current_time)
+            min_leftStr = time_leftStr[time_leftStr.find('s')+3:]
+            # min_left是還剩幾分鐘關店的意思
+            min_left = int(min_leftStr[:min_leftStr.find(':')])*60 + int(min_leftStr[min_leftStr.find(':')+1:min_leftStr.find(':')+3])
+        
+            # print(min_pass)
+            # print(min_left)
+    
+            run_timeStr = str(close_time - open_time)  # 篩選出來我們要比較的營業時間
+            # print(run_timeStr)
+            # 用分鐘計營業總時長
+            if run_timeStr == '0:00:00':  # 不打烊的話
+                run_time = 1440
+            elif 'day' in run_timeStr:  # 營業久到關店比開店早的話(Ex. ['07:00~00:00']會變成: -1 day, 17:00:00)
+                run_time = int(run_timeStr[run_timeStr.find(',')+2:run_timeStr.find(':')])*60 + int(run_timeStr[run_timeStr.find(':')+1:run_timeStr.find(':')+3])
+            else: # 正常的情況
+                run_time = int(run_timeStr[:run_timeStr.find(':')])*60 + int(run_timeStr[run_timeStr.find(':')+1:run_timeStr.find(':')+3])
+            # print(run_time)
+
+            # 最後印出來的結果，設計對白供前端參考
+            # print(weekday_chosen)
+            # print(select_day)
+            global reminder
+            if weekday_chosen == select_day:
+                if min_pass > run_time:  # 已經開店的時間大於營業總時常的話，就代表已經關店了
+                    reminder = '目前還沒開窩！再等等'
+                else:
+                    if min_left <= 90:  # 小於90分鐘，提醒注意
+                        reminder = '還有一個半小時就要關門囉！要吃要快'
+                    else:  # 正常情況
+                        reminder = '目前正在賣窩！可以去吃'
+        f.close
+        
         if weekday_chosen == select_day:
-            self.info_label = Label(text="今天的話："+'還有一個半小時就要關門囉！要吃要快', bg = "#4682B4")
+            self.info_label = Label(text="今天的話："+ reminder, bg = "#4682B4")
             self.info_label.config(height=2,fg = "white",font ="微軟正黑體 18")
             self.info_label.grid(row = 6)
-        
-        
+
+        # 餐廳營業時間
+        self.res_time_label = Label(text= weekday_chosen + "的營業時間："+ select2open[weekday_chosen], bg = "#4682B4")
+        self.res_time_label.config(height=2,fg = "white",font ="微軟正黑體 18")
+        self.res_time_label.grid(row = 3)
 
 
 
