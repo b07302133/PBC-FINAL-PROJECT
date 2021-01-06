@@ -546,10 +546,12 @@ class PageFour(Frame):
         Frame.__init__(self, master)
         self.config(background="#4682B4")
         # 上一步按鍵
-        self.back_btn = Button(self, text="上一步", background="#4682B4", width=20, height=2, bg = "white", command=lambda: master.switch_frame(PageThree)).grid(row = 7, column = 0, sticky = 'w'+'e', padx=5)        # 重來按鍵
-        self.restart_btn = Button(self, text="重來",background="#4682B4", width=20, height=2, bg = "white", command=lambda: master.switch_frame(StartPage)).grid(row = 7, column = 1, sticky = 'w'+'e', padx=5)
-        self.comment_btn = Button(self, text="看評論",background="#4682B4", width=20, height=2, bg = "white", command=lambda: comment()).grid(row = 7, column = 2, sticky = 'w'+'e', padx=5)
-        
+        self.back_btn = Button(self, text="上一步", background="#4682B4", height=2, bg = "white", command=lambda: master.switch_frame(PageThree)).grid(row = 7, column = 0, sticky = 'w'+'e', padx=5)        # 重來按鍵
+        # 重來按鈕
+        self.restart_btn = Button(self, text="重來", background="#4682B4", height=2, bg = "white", command=lambda: master.switch_frame(StartPage)).grid(row = 7, column = 1, sticky = 'w'+'e', padx=5)
+        # 評論查詢按鈕
+        self.comment_btn = Button(self, text="看評論", background="#4682B4", height=2, bg = "white", command=lambda: comment()).grid(row = 7, column = 2, sticky = 'w'+'e', padx=5)
+
         # 餐廳名稱
         self.res_name_label = Label(self, text = res_name + "的資訊", bg = "#4682B4")
         self.res_name_label.config(height=2,fg = "white",font ="微軟正黑體 18")
