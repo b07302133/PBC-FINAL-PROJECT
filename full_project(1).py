@@ -1,4 +1,3 @@
-
 from tkinter import*
 import csv
 import datetime
@@ -220,7 +219,7 @@ class StartPage(Frame):
         self.weekday_variable.set('請選擇星期幾')
         
         weekday_pull = OptionMenu(self, self.weekday_variable, *OptionList1)
-        weekday_pull.config(width=18, height = 2, background="#4682B4")
+        weekday_pull.config(width=18, height = 2)
         weekday_pull.grid(row = 1, rowspan = 2, column = 3, sticky = 'n'+'w')
         
         # 當星期幾的下拉列表被點選，就會呼叫 weekday_selection 這個 method
@@ -364,35 +363,35 @@ class PageTwo(Frame):
         self.style_variable1 = StringVar()
         self.style_variable1.set(["請選擇風格"])
         style_pull1 = OptionMenu(self, self.style_variable1, *style_List)
-        style_pull1.config(background="#4682B4", width = 20, height=2, font=('Helvetica', 12))
+        style_pull1.config(width = 20, height=2, font=('Helvetica', 12))
         style_pull1.grid(row = 1, column = 1, sticky = 's', pady = 5)
 
         # # 第二偏好下拉清單設置
         self.style_variable2 = StringVar()
         self.style_variable2.set(["請選擇風格"])
         style_pull2 = OptionMenu(self, self.style_variable2, *style_List)
-        style_pull2.config(background="#4682B4", width = 20, height=2, font=('Helvetica', 12))
+        style_pull2.config(width = 20, height=2, font=('Helvetica', 12))
         style_pull2.grid(row = 2, column = 1, sticky = 'n'+'s', pady = 5)
 
         # 第三偏好下拉清單設置
         self.style_variable3 = StringVar()
         self.style_variable3.set(["請選擇風格"])
         style_pull3 = OptionMenu(self, self.style_variable3, *style_List)
-        style_pull3.config(background="#4682B4", width = 20, height=2, font=('Helvetica', 12))
+        style_pull3.config(width = 20, height=2, font=('Helvetica', 12))
         style_pull3.grid(row = 3, column = 1, sticky = 'n'+'s', pady = 5)
         
         # 第四偏好下拉清單設置
         self.style_variable4 = StringVar()
         self.style_variable4.set(["請選擇風格"])
         style_pull4 = OptionMenu(self, self.style_variable4, *style_List)
-        style_pull4.config(background="#4682B4", width = 20, height=2, font=('Helvetica', 12))
+        style_pull4.config(width = 20, height=2, font=('Helvetica', 12))
         style_pull4.grid(row = 4, column = 1, sticky = 'n'+'s', pady = 5)
 
         # 第五偏好下拉清單設置
         self.style_variable5 = StringVar()
         self.style_variable5.set(["請選擇風格"])
         style_pull5 = OptionMenu(self, self.style_variable5, *style_List)
-        style_pull5.config(background="#4682B4", width = 20, height=2, font=('Helvetica', 12))
+        style_pull5.config(width = 20, height=2, font=('Helvetica', 12))
         style_pull5.grid(row = 5, column = 1, sticky = 'n'+'s', pady = 5)
 
         # 排序下拉式選單
@@ -400,7 +399,7 @@ class PageTwo(Frame):
         self.order_variable = StringVar(self)
         self.order_variable.set(["請選擇排序方式"])
         order_pull = OptionMenu(self, self.order_variable, *order_List)
-        order_pull.config(background="#4682B4", width = 20, height=2, font=('Helvetica', 12))
+        order_pull.config(width = 20, height=2, font=('Helvetica', 12))
         order_pull.grid(row = 1, column = 3)
 
 
