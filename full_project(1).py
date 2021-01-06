@@ -312,12 +312,12 @@ class PageTwo(Frame):
         self.back_btn = Button(
             self, text="回到上一頁", width=20, height=2, 
             bg = "white", command=lambda: master.switch_frame(StartPage)).grid(
-                row = 5, column = 3, sticky = 'w'+'e')
+                row = 4, column = 3, sticky = 'w'+'e')
 
         self.back_btn = Button(
             self, text="送出", width=20, height=2, 
             bg = "white", command = lambda:[self.all_check() ,master.switch_frame(PageThree)]).grid(
-            row = 6, column = 3, sticky = 'w'+'e')
+            row = 5, column = 3, sticky = 'w'+'e')
 
         # 第一偏好顯示
         self.style_variable1_display = Label(self, width = 15, height = 1, 
@@ -549,13 +549,13 @@ class PageThree(Frame):
 
         self.top_label = Label(self, width = 20, height = 3, text="請點擊顯示資訊", fg = "white", font ="微軟正黑體 15")
         self.top_label.config(background="#4682B4")
-        self.top_label.grid(row = 0, column = 1, sticky = 'n')
+        self.top_label.grid(row = 0, column = 2, sticky = 'n')
 
-        self.no1_option.grid(row = 1, column = 1, sticky = 's', pady = 10)
-        self.no2_option.grid(row = 2, column = 1, sticky = 'n'+'s', pady = 10)
-        self.no3_option.grid(row = 3, column = 1, sticky = 'n'+'s', pady = 10)
-        self.no4_option.grid(row = 4, column = 1, sticky = 'n'+'s', pady = 10)
-        self.no5_option.grid(row = 5, column = 1, sticky = 'n'+'s', pady = 10)
+        self.no1_option.grid(row = 1, column = 2, sticky = 's', pady = 10)
+        self.no2_option.grid(row = 2, column = 2, sticky = 'n'+'s', pady = 10)
+        self.no3_option.grid(row = 3, column = 2, sticky = 'n'+'s', pady = 10)
+        self.no4_option.grid(row = 4, column = 2, sticky = 'n'+'s', pady = 10)
+        self.no5_option.grid(row = 5, column = 2, sticky = 'n'+'s', pady = 10)
 
 class PageFour(Frame):  
     # page4 back
@@ -658,8 +658,9 @@ class PageFour(Frame):
         Frame.__init__(self, master)
         self.config(background="#4682B4")
         # 上一步按鍵
-        self.back_btn = Button(self, text="上一步", width=20, height=2, bg = "white", command=lambda: master.switch_frame(PageThree)).grid(row = 7, column = 2, sticky = 'w'+'e')        # 重來按鍵
-        self.restart_btn = Button(self, text="重來", width=20, height=2, bg = "white", command=lambda: master.switch_frame(StartPage)).grid(row = 7, column = 3, sticky = 'w'+'e')
+        self.back_btn = Button(self, text="上一步", width=20, height=2, bg = "white", command=lambda: master.switch_frame(PageThree)).grid(row = 7, column = 2, sticky = 'w'+'e', padx=5)        # 重來按鍵
+        self.restart_btn = Button(self, text="重來", width=20, height=2, bg = "white", command=lambda: master.switch_frame(StartPage)).grid(row = 7, column = 3, sticky = 'w'+'e', padx=5)
+        self.comment_btn = Button(self, text="看評論", width=20, height=2, bg = "white", command=lambda: comment()).grid(row = 7, column = 4, sticky = 'w'+'e', padx=5)
         #餐廳名稱
         self.res_name_label = Label(text= res_name + "的資訊", bg = "#4682B4")
         self.res_name_label.config(height=2,fg = "white",font ="微軟正黑體 18")
@@ -680,13 +681,10 @@ class PageFour(Frame):
         self.res_star_label = Label(text="星級："+ name2stars[res_name], bg = "#4682B4")
         self.res_star_label.config(height=2,fg = "white",font ="微軟正黑體 18")
         self.res_star_label.grid(row = 4)
-        # 餐廳訂位與低消
-        self.res_star_label = Label(text="訂位：有             低消：無", bg = "#4682B4")
-        self.res_star_label.config(height=2,fg = "white",font ="微軟正黑體 18")
-        self.res_star_label.grid(row = 5)
+        
         # 時間提醒
         if weekday_chosen == select_day:
-            self.info_label = Label(text="今天的話："+'還有一個半小時就要關門囉！要吃要快', bg = "#4682B4")
+            self.info_label = Label(text="今天的話："+reminder, bg = "#4682B4")
             self.info_label.config(height=2,fg = "white",font ="微軟正黑體 18")
             self.info_label.grid(row = 6)
         
